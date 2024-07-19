@@ -41,6 +41,7 @@ rules:
   resources: ["subjectaccessreviews"]
   verbs: ["create"]
 {{- end }}
+{{- if .Values.speaker.enabled }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -73,6 +74,7 @@ rules:
 - apiGroups: ["frrk8s.metallb.io"]
   resources: ["frrconfigurations"]
   verbs: ["get", "list", "watch","create","update"]
+{{- end }}
 {{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -117,7 +119,7 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
   labels: {{- include "metallb.labels" . | nindent 4 }}
 rules:
-{{- if .Values.speaker.memberlist.enabled }}
+{{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
 - apiGroups: [""]
   resources: ["secrets"]
   verbs: ["create", "get", "list", "watch"]
@@ -167,6 +169,7 @@ roleRef:
   kind: ClusterRole
   name: {{ template "metallb.fullname" . }}:controller
 ---
+{{- if .Values.speaker.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -195,6 +198,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "metallb.speaker.serviceAccountName" . }}
+{{- end -}}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
