@@ -77,14 +77,14 @@ spec:
         {{- if .Values.controller.tlsCipherSuites }}
         - --tls-cipher-suites={{ .Values.controller.tlsCipherSuites }}
         {{- end }}
-        env:
         {{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
+        env:
         - name: METALLB_ML_SECRET_NAME
           value: {{ include "metallb.secretName" . }}
         - name: METALLB_DEPLOYMENT
           value: {{ template "metallb.fullname" . }}-controller
         {{- end }}
-        {{- if and Values.speaker.enabled .Values.speaker.frr.enabled }}
+        {{- if and .Values.speaker.enabled .Values.speaker.frr.enabled }}
         - name: METALLB_BGP_TYPE
           value: frr
         {{- end }}
