@@ -77,7 +77,6 @@ metadata:
 spec:
   selector:
     {{- include "metallb.selectorLabels" . | nindent 4 }}
-    app.kubernetes.io/component: speaker
   clusterIP: None
   ports:
     - name: {{ template "metrics.exposedportname" . }}
@@ -99,7 +98,6 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "metallb.labels" . | nindent 4 }}
-    app.kubernetes.io/component: speaker
     {{- if .Values.prometheus.serviceMonitor.controller.additionalLabels }}
 {{ toYaml .Values.prometheus.serviceMonitor.controller.additionalLabels | indent 4 }}
     {{- end }}
