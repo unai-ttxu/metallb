@@ -77,6 +77,7 @@ metadata:
 spec:
   selector:
     {{- include "metallb.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: speaker
   clusterIP: None
   ports:
     - name: {{ template "metrics.exposedportname" . }}
