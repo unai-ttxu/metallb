@@ -77,8 +77,8 @@ spec:
         {{- if .Values.controller.tlsCipherSuites }}
         - --tls-cipher-suites={{ .Values.controller.tlsCipherSuites }}
         {{- end }}
-        {{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
         env:
+        {{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
         - name: METALLB_ML_SECRET_NAME
           value: {{ include "metallb.secretName" . }}
         - name: METALLB_DEPLOYMENT
